@@ -13,7 +13,7 @@ const ERROR_MESSAGES = {
 const STORAGE_KEY = 'session_token';
 
 // URL API
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://registration-io.onrender.com';
 const API_ENDPOINTS = {
   CHECK_AUTH: `${API_BASE_URL}/check-auth`,
   LOGIN: `${API_BASE_URL}/login`,
