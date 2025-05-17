@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🗳 Результати голосування</title>
+  <link rel="stylesheet" href="resultStyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Результати голосування</h1>
+
+    <!-- Фільтри для результатів -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="vote-status">Статус голосування:</label>
+        <select id="vote-status" class="filter-select">
+          <option value="all">Всі голосування</option>
+          <option value="active">Активні</option>
+          <option value="completed">Завершені</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="vote-type">Тип голосування:</label>
+        <select id="vote-type" class="filter-select">
+          <option value="all">Всі типи</option>
+          <option value="public">Публічні</option>
+          <option value="group">Групові</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="search-input">Пошук:</label>
+        <input type="text" id="search-input" placeholder="Назва голосування">
+      </div>
+      
+      <button id="reset-filters" class="reset-btn"><i class="fas fa-sync-alt"></i> Скинути</button>
+    </div>
+    
+    <div class="votes-info">
+      <div class="vote-count">
+        <span id="vote-count-badge"><i class="fas fa-spinner fa-spin"></i></span>
+      </div>
+      <div class="user-votes">
+        <i class="fas fa-user-check"></i> Ви проголосували в <span id="user-vote-count">0</span> голосуваннях
+      </div>
+    </div>
+
+    <div class="cards" id="cards-container">
+      <!-- Результати будуть додаватись сюди динамічно -->
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div class="back">
+      <a href="index.html"><i class="fas fa-arrow-left"></i> Назад до панелі</a>
+    </div>
+  </div>
+
+  <script src="result.js"></script>
+
+</body>
+</html>

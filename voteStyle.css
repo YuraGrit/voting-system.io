@@ -1,0 +1,560 @@
+/* Основні стилі */
+body {
+  margin: 0;
+  background: linear-gradient(to right, #3f51b5, #5a55ae);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+/* Пошук та фільтри */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  padding: 8px 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-btn, #add-vote-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn i, #add-vote-btn i {
+  color: white;
+  font-size: 18px;
+}
+
+.search-btn:hover, #add-vote-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Вкладки */
+.votes-tabs {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  color: white;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+}
+
+.group-tab {
+  background-color: #e53935;
+}
+
+.public-tab {
+  background-color: #ff9800;
+}
+
+.tab-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tab-btn.active {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  position: relative;
+}
+
+.group-tab.active {
+  background-color: #c62828;
+}
+
+.public-tab.active {
+  background-color: #ef6c00;
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid currentColor;
+}
+
+/* Контейнери для голосувань */
+.votes-container {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.votes-container.active {
+  display: block;
+  opacity: 1;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Картки голосувань */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .card-content {
+    flex-direction: row;
+  }
+}
+
+.card-left {
+  flex: 1;
+}
+
+.card-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.vote-id {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.description {
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.end-date {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Кнопки голосування */
+button.vote-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  color: white;
+  text-align: left;
+  margin-bottom: 8px;
+  background-color: #4CAF50;
+}
+
+button.vote-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #3a943d;
+}
+
+/* Форма додавання голосування */
+.form-container {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.form-container form {
+  background-color: #2c3e50;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 400px;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-container h3 {
+  text-align: center;
+  margin-top: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.form-container input,
+.form-container textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: inherit;
+}
+
+.form-container textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.date-input, .group-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.date-input label, .group-input label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.date-input input[type="date"], .group-input input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 16px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+}
+
+.date-input input[type="date"]:focus, 
+.group-input input:focus {
+  border-color: #7c4dff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.25);
+}
+
+.field-help {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 5px;
+  font-style: italic;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 5px;
+  filter: invert(1);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Кнопки форми */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn {
+  flex: 2;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.submit-btn:hover {
+  background-color: #3a943d;
+  transform: translateY(-2px);
+}
+
+/* Елементи для вже проголосованих карток */
+.vote-complete {
+  background-color: rgba(76, 175, 80, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px dashed rgba(76, 175, 80, 0.5);
+}
+
+.vote-complete p {
+  margin: 0;
+  color: white !important;
+  font-size: 16px !important;
+}
+
+.vote-complete i {
+  color: #4CAF50;
+  margin-right: 5px;
+}
+
+.already-voted {
+  position: relative;
+  border-left: 4px solid #4CAF50;
+}
+
+.vote-time-left {
+  font-size: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2px 8px;
+  color: white;
+}
+
+/* Утиліти */
+.back {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.back a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.back a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.empty-results {
+  text-align: center;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top: 4px solid #4CAF50;
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Респонсивність */
+@media (max-width: 768px) {
+  .form-container form {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+/* Стилі для модального вікна адміністратора */
+#admin-vote-modal.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+#admin-vote-modal .modal-content {
+  background-color: #2c3e50;
+  margin: 0;
+  padding: 25px;
+  border: none;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+#admin-vote-modal .close {
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#admin-vote-modal .close:hover {
+  color: white;
+}
+
+.admin-vote-message {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.admin-vote-message i {
+  font-size: 50px;
+  color: #f39c12;
+  margin-bottom: 20px;
+}
+
+.admin-vote-message h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.admin-vote-message p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.admin-vote-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.admin-vote-btn:hover {
+  background-color: #e67e22;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}

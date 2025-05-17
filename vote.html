@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🗳 Обрати голосування</title>
+  <link rel="stylesheet" href="voteStyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>📋 Оберіть голосування</h1>
+
+    <!-- Пошук та додавання голосування -->
+    <div class="search-container">
+      <input type="text" id="search-input" class="search-input" placeholder="Пошук голосувань...">
+      <button id="search-btn" class="search-btn">
+        <i class="fa fa-search"></i>
+      </button>
+
+      <!-- Кнопка для додавання голосувань, видима тільки для адміністраторів -->
+      <button id="add-vote-btn" class="add-vote-btn" style="display: none;">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+
+    <!-- Перемикач між типами голосувань -->
+    <div class="votes-tabs">
+      <button class="tab-btn group-tab active" data-tab="group">
+        <i class="fas fa-users"></i> Групові голосування
+      </button>
+      <button class="tab-btn public-tab" data-tab="public">
+        <i class="fas fa-globe"></i> Публічні голосування
+      </button>
+    </div>
+
+    <!-- Контейнер для групових голосувань -->
+    <div id="group-votes" class="votes-container active">
+      <div id="group-vote-list" class="cards">
+        <!-- Динамічний вміст групових голосувань -->
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+
+    <!-- Контейнер для публічних голосувань -->
+    <div id="public-votes" class="votes-container">
+      <div id="public-vote-list" class="cards">
+        <!-- Динамічний вміст публічних голосувань -->
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+
+    <div class="back">
+      <a href="index.html"><i class="fas fa-arrow-left"></i> Назад до панелі</a>
+    </div>
+  </div>
+
+  <!-- Форма для додавання нового голосування -->
+  <div class="form-container" id="form-container">
+    <form id="vote-form">
+      <h3><i class="fas fa-plus-circle"></i> Додати нове голосування</h3>
+      <input type="text" id="vote-title" placeholder="Назва голосування" required>
+      <textarea id="vote-description" placeholder="Опис голосування" required></textarea>
+      <input type="text" id="vote-options" placeholder="Варіанти голосування (через кому)" required>
+      
+      <!-- Поле для вибору дати завершення голосування -->
+      <div class="date-input">
+        <label for="vote-end-date">Дата завершення:</label>
+        <input type="date" id="vote-end-date" required>
+      </div>
+      
+      <!-- Поле для вказання ID груп -->
+      <div class="group-input">
+        <label for="vote-group-ids">ID груп (через кому або "all" для всіх):</label>
+        <input type="text" id="vote-group-ids" placeholder="Напр.: a1b2c3,d4e5f6 або all">
+        <div class="field-help">Залиште порожнім для публічного голосування</div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" onclick="closeAddVoteForm()">Скасувати</button>
+        <button type="submit" class="submit-btn">Створити голосування</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="vote.js"></script>
+
+</body>
+</html>

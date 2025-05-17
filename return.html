@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Блоки Блокчейну</title>
+  <link rel="stylesheet" href="returnStyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>📜 Блоки Блокчейну</h1>
+    
+    <!-- Фільтри для блоків -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="block-type">Тип блоку:</label>
+        <select id="block-type" class="filter-select">
+          <option value="all">Всі блоки</option>
+          <option value="create_vote">Створення голосування</option>
+          <option value="vote">Голосування</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="search-input">Пошук:</label>
+        <input type="text" id="search-input" placeholder="ID голосування або виборця">
+      </div>
+      
+      <button id="reset-filters" class="reset-btn"><i class="fas fa-sync-alt"></i> Скинути</button>
+    </div>
+    
+    <!-- Кількість блоків та статус валідації -->
+    <div class="blockchain-status">
+      <div class="block-count">
+        <i class="fas fa-cube"></i> <span id="block-count">0</span> блоків 
+      </div>
+      <div class="validation-status" id="validation-status">
+        <i class="fas fa-spinner fa-spin"></i> Перевірка цілісності ланцюга...
+      </div>
+    </div>
+    
+    <div id="blocks" class="blocks-container">
+      <!-- Тут будуть блоки блокчейну -->
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+  
+  <!-- Кнопка для повернення до головної панелі -->
+  <div class="back">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Назад до панелі</a>
+  </div>
+
+  <script>
+    // Константи
+    const BLOCKCHAIN_API_URL = 'http://localhost:4000';
+    
+    // Стан додатку
+    let allBlocks = [];
+    let filteredBlocks = [];
+    
+    // Перевіряємо авторизацію
+    document.addEventListener('DOMContentLoaded', function() {
+      // Перевірка наявності токена
+      const token = localStorage.getItem('session_token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Завантажуємо блокчейн
+      fetchBlockchain();
+      
+      // Перевіряємо валідність ланцюга
+      validateBlockchain();
+      
+      // Додаємо обробники подій для фільтрів
+      document.getElementById('block-type').addEventListener('change', applyFilters);
+      document.getElementById('search-input').addEventListener('input', applyFilters);
+      document.getElementById('reset-filters').addEventListener('click', resetFilters);
+    });
+    
+    // Функція для завантаження блокчейну
+    async function fetchBlockchain() {
+      try {
+        const response = await fetch(`${BLOCKCHAIN_API_URL}/chain`);
+        const blockchain = await response.json();
+        
+        // Зберігаємо всі блоки
+        allBlocks = blockchain;
+        
+        // Сортуємо блоки за часом створення
+        allBlocks.sort((a, b) => {
+          const dateA = a.creationDate || a.timestamp;
+          const dateB = b.creationDate || b.timestamp;
+          return new Date(dateA) - new Date(dateB);
+        });
+        
+        // Оновлюємо лічильник блоків
+        document.getElementById('block-count').textContent = allBlocks.length;
+        
+        // Застосовуємо фільтри та відображаємо блоки
+        applyFilters();
+      } catch (error) {
+        console.error('Помилка при отриманні блокчейну:', error);
+        document.getElementById('blocks').innerHTML = 
+          '<p class="error-message"><i class="fas fa-exclamation-triangle"></i> Помилка при завантаженні даних блокчейну. Перевірте, чи запущений сервер.</p>';
+      }
+    }
+    
+    // Функція для перевірки валідності блокчейну
+    async function validateBlockchain() {
+      try {
+        const response = await fetch(`${BLOCKCHAIN_API_URL}/validate`);
+        const validationResult = await response.json();
+        
+        const validationStatusElement = document.getElementById('validation-status');
+        
+        if (validationResult.valid) {
+          validationStatusElement.innerHTML = '<i class="fas fa-check-circle"></i> Ланцюг валідний';
+          validationStatusElement.className = 'validation-status valid';
+        } else {
+          validationStatusElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${validationResult.message}`;
+          validationStatusElement.className = 'validation-status invalid';
+        }
+      } catch (error) {
+        console.error('Помилка перевірки валідності блокчейну:', error);
+        const validationStatusElement = document.getElementById('validation-status');
+        validationStatusElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Помилка перевірки цілісності';
+        validationStatusElement.className = 'validation-status invalid';
+      }
+    }
+    
+    // Функція для застосування фільтрів
+    function applyFilters() {
+      const blockType = document.getElementById('block-type').value;
+      const searchQuery = document.getElementById('search-input').value.toLowerCase();
+      
+      // Фільтруємо блоки
+      filteredBlocks = allBlocks.filter(block => {
+        // Фільтр за типом блоку
+        if (blockType !== 'all' && block.type !== blockType) {
+          return false;
+        }
+        
+        // Пошук за вмістом
+        if (searchQuery) {
+          const matchesVoteId = block.voteId && block.voteId.toString().toLowerCase().includes(searchQuery);
+          const matchesVoterId = block.voterId && block.voterId.toString().toLowerCase().includes(searchQuery);
+          const matchesTitle = block.title && block.title.toLowerCase().includes(searchQuery);
+          
+          return matchesVoteId || matchesVoterId || matchesTitle;
+        }
+        
+        return true;
+      });
+      
+      // Відображаємо відфільтровані блоки
+      renderBlocks(filteredBlocks);
+    }
+    
+    // Функція для скидання фільтрів
+    function resetFilters() {
+      document.getElementById('block-type').value = 'all';
+      document.getElementById('search-input').value = '';
+      
+      // Застосовуємо фільтри
+      applyFilters();
+    }
+    
+    // Функція для відображення блоків
+    function renderBlocks(blocks) {
+      const container = document.getElementById('blocks');
+      container.innerHTML = '';
+      
+      if (blocks.length === 0) {
+        container.innerHTML = '<p class="empty-results">Не знайдено жодного блоку за вказаними критеріями.</p>';
+        return;
+      }
+      
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        const blockDiv = document.createElement('div');
+        blockDiv.className = `block ${block.type === 'vote' ? 'vote-block' : 'create-vote-block'}`;
+        
+        // Короткий зміст блоку (завжди видимий)
+        const blockSummary = document.createElement('div');
+        blockSummary.className = 'block-summary';
+        
+        // Деталі блоку (сховані, розгортаються при кліку)
+        const blockDetails = document.createElement('div');
+        blockDetails.className = 'block-details';
+        
+        // Визначаємо тип бейджу
+        const badgeClass = block.type === 'vote' ? 'badge-vote' : 'badge-create';
+        const badgeText = block.type === 'vote' ? 'Голосування' : 'Створення';
+        
+        // Різний вивід інформації в залежності від типу блоку
+        if (block.type === 'create_vote') {
+          blockSummary.innerHTML = `
+            <div class="block-header">
+              <strong>Блок #${i + 1} <span class="block-badge ${badgeClass}">${badgeText}</span></strong>
+              <span>${new Date(block.creationDate || block.timestamp).toLocaleString()}</span>
+            </div>
+            <p>ID голосування: ${block.voteId}</p>
+            <p>Назва: ${block.title}</p>
+            <div class="toggle-icon">▼</div>
+          `;
+          
+          // Визначаємо тип голосування (публічне чи групове)
+          const isPublic = Array.isArray(block.groupIds) && block.groupIds.includes("all");
+          const voteTypeClass = isPublic ? 'type-public' : 'type-group';
+          const voteType = isPublic ? 'Публічне' : 'Групове';
+          
+          blockDetails.innerHTML = `
+            <div class="block-body">
+              <div class="block-section">
+                <div class="section-title">Основна інформація:</div>
+                <p>Опис: ${block.description}</p>
+                <p>ID автора: ${block.creatorId}</p>
+                <p>Дата закінчення: ${new Date(block.endDate).toLocaleString()}</p>
+                <p>Тип голосування: <span class="vote-type ${voteTypeClass}">${voteType}</span></p>
+              </div>
+              <div class="block-section">
+                <div class="section-title">Варіанти:</div>
+                <ul>
+                  ${block.options.map(option => `<li>${option}</li>`).join('')}
+                </ul>
+                <div class="section-title">Хеші:</div>
+                <p class="hash">Hash: ${block.hash}</p>
+                <p class="hash">Previous Hash: ${block.previousHash}</p>
+              </div>
+            </div>
+          `;
+        } else { // Для блоків голосування
+          blockSummary.innerHTML = `
+            <div class="block-header">
+              <strong>Блок #${i + 1} <span class="block-badge ${badgeClass}">${badgeText}</span></strong>
+              <span>${new Date(block.creationDate || block.timestamp).toLocaleString()}</span>
+            </div>
+            <p>ID голосування: ${block.voteId}</p>
+            <p>ID виборця: ${block.voterId}</p>
+            <div class="toggle-icon">▼</div>
+          `;
+
+          blockDetails.innerHTML = `
+            <div class="block-body">
+              <div class="block-section">
+                <div class="section-title">Деталі голосування:</div>
+                <p>Обраний варіант: <strong>${block.candidate || 'Не вказано'}</strong></p>
+              </div>
+              <div class="block-section">
+                <div class="section-title">Хеші:</div>
+                <p class="hash">Hash: ${block.hash}</p>
+                <p class="hash">Previous Hash: ${block.previousHash}</p>
+              </div>
+            </div>
+          `;
+        }
+        
+        blockDiv.appendChild(blockSummary);
+        blockDiv.appendChild(blockDetails);
+        
+        // Додаємо обробник подій для розгортання/згортання деталей
+        blockDiv.addEventListener('click', function(e) {
+          // Запобігаємо закриттю при кліку на вміст блоку
+          if (e.target.closest('.block-details') && !e.target.closest('.section-title')) {
+            return;
+          }
+          this.classList.toggle('expanded');
+        });
+        
+        container.appendChild(blockDiv);
+      }
+    }
+    
+    // Оновлюємо дані кожні 30 секунд
+    setInterval(() => {
+      fetchBlockchain();
+      validateBlockchain();
+    }, 30000);
+  </script>
+
+</body>
+</html>

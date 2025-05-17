@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗳 Блокчейн Голосування</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Панель голосування -->
+    <div id="main">
+        <div class="dashboard">
+            <h1>🗳 Панель голосування</h1>
+
+            <!-- Іконка користувача-->
+            <div id="userIcon" onclick="showProfile()">
+                <span style="font-size: 24px;">👤</span>
+            </div>
+
+            <div class="cards">
+                <div class="card" onclick="goToVotePage()">
+                    <h3>ОБРАТИ ГОЛОСУВАННЯ</h3>
+                    <p><i class="fas fa-vote-yea fa-2x"></i></p>
+                    <div class="card-description">Перегляд та участь у доступних голосуваннях</div>
+                </div>
+                <div class="card" onclick="goToResultPage()">
+                    <h3>РЕЗУЛЬТАТИ</h3>
+                    <p><i class="fas fa-chart-bar fa-2x"></i></p>
+                    <div class="card-description">Перегляд результатів усіх голосувань</div>
+                </div>
+                <div class="card" onclick="showLastVoteModal()">
+                    <h3>ОСТАННЄ ГОЛОСУВАННЯ</h3>
+                    <p><i class="fas fa-trophy fa-2x"></i></p>
+                    <div class="card-description">Результат вашого останнього голосування</div>
+                </div>
+                <div class="card" onclick="goToReturnPage()">
+                    <h3>БЛОКЧЕЙН</h3>
+                    <p><i class="fas fa-link fa-2x"></i></p>
+                    <div class="card-description">Перегляд усіх блоків у блокчейні</div>
+                </div>
+            </div>
+
+            <div id="status-bar">
+                <div id="blockchain-status">
+                    <i class="fas fa-circle" id="status-indicator"></i> 
+                    <span id="status-text">Перевірка з'єднання...</span>
+                </div>
+                <div id="version-info">v1.1.0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вікно профілю користувача -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProfile()">&times;</span>
+            <h2>Інформація про користувача</h2>
+            <div id="profileContent"></div>
+        </div>
+    </div>
+
+    <!-- Вікно результатів останнього голосування -->
+    <div id="lastVoteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLastVoteModal()">&times;</span>
+            <h2>Результати останнього голосування</h2>
+            <div id="lastVoteResults">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
