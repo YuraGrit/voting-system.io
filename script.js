@@ -3,7 +3,7 @@
  */
 
 // Константи і конфігурація
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://registration-io.onrender.com';
 const BLOCKCHAIN_API_URL = 'http://localhost:4000';
 const STORAGE_KEYS = {
   TOKEN: 'session_token',
