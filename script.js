@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
  // Перевірка статусу блокчейну
  async function checkBlockchainStatus() {
   try {
-      const response = await fetch('http://localhost:4000/test', { timeout: 3000 });
+      const response = await fetch('https://blockchain-io-ffel.onrender.com/test', { timeout: 3000 });
       if (response.ok) {
           document.getElementById('status-indicator').className = 'fas fa-circle online';
           document.getElementById('status-text').textContent = 'Блокчейн онлайн';
