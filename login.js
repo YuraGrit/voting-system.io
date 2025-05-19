@@ -108,7 +108,7 @@ async function checkTokenAndRedirect(token) {
 
     if (response.ok) {
       // Перенаправлення на головну сторінку
-      window.location.href = "index.html";
+      window.location.href = "./";
     } else {
       // Якщо токен невалідний, видаляємо його
       localStorage.removeItem(STORAGE_KEY);
@@ -163,7 +163,7 @@ async function authorize() {
       }
       
       // Перенаправляємо на головну сторінку
-      window.location.href = "index.html";
+      window.location.href = "./";
     } else {
       hideLoader();
       showError(errorElement, ERROR_MESSAGES.INVALID_CODE);
