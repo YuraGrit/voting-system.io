@@ -30,7 +30,7 @@
     // Перевірка наявності токена
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
     if (!token) {
-      window.location.href = 'login.html';
+      window.location.href = 'login';
       return;
     }
     
@@ -63,7 +63,7 @@
       
       if (!token) {
         console.error("Немає токена для авторизації.");
-        window.location.href = "login.html";
+        window.location.href = "login";
         return null;
       }
       
