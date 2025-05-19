@@ -129,7 +129,7 @@
         if (response.status === 401) {
           console.warn("Токен недійсний або прострочений. Перенаправлення на сторінку входу...");
           localStorage.removeItem(STORAGE_KEYS.TOKEN);
-          window.location.href = "login.html";
+          window.location.href = "login";
         }
         throw new Error('Помилка при отриманні ID користувача');
       }
