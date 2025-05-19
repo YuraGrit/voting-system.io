@@ -18,7 +18,7 @@
       
       if (!token) {
         console.error("Немає токена для авторизації.");
-        window.location.href = "login.html"; // Перенаправляємо на сторінку входу
+        window.location.href = "login"; // Перенаправляємо на сторінку входу
         return;
       }
       
