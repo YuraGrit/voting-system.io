@@ -104,7 +104,7 @@
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     localStorage.removeItem(STORAGE_KEYS.GROUP_ID);
     localStorage.removeItem(STORAGE_KEYS.STATUS);
-    window.location.href = "login.html";
+    window.location.href = "login";
   }
   
   // Функція для отримання ID користувача
@@ -113,7 +113,7 @@
 
     if (!token) {
       console.error("Немає токена для авторизації.");
-      window.location.href = "login.html";
+      window.location.href = "login";
       return null;
     }
 
