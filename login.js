@@ -1,6 +1,6 @@
 
 // login.js
- 
+ import CONFIG from './config.js';
 
 // Повідомлення
 const ERROR_MESSAGES = {
@@ -13,7 +13,7 @@ const ERROR_MESSAGES = {
 const STORAGE_KEY = 'session_token';
 
 // URL API
-const API_BASE_URL = 'https://registration-io.onrender.com';
+const API_BASE_URL = CONFIG.API_BASE_URL;
 const API_ENDPOINTS = {
   CHECK_AUTH: `${API_BASE_URL}/check-auth`,
   LOGIN: `${API_BASE_URL}/login`,
