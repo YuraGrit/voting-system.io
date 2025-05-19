@@ -372,7 +372,7 @@ function closeAdminVoteModal() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     localStorage.removeItem(STORAGE_KEYS.GROUP_ID);
     localStorage.removeItem(STORAGE_KEYS.STATUS);
-    window.location.href = "login.html";
+    window.location.href = "login";
   }
 
   // Функція для відкриття форми додавання голосування
