@@ -207,7 +207,7 @@ function logout() {
  * Перенаправлення на сторінку логіну
  */
 function redirectToLogin() {
-  window.location.href = "login.html";
+  window.location.href = "login";
 }
 
 /**
