@@ -182,15 +182,15 @@ window.onclick = function(event) {
  * Навігаційні функції для переходу між сторінками
  */
 function goToVotePage() {
-  window.location.href = "vote.html";
+  window.location.href = "vote";
 }
 
 function goToResultPage() {
-  window.location.href = "result.html";
+  window.location.href = "result";
 }
 
 function goToReturnPage() {
-  window.location.href = "return.html";
+  window.location.href = "return";
 }
 
 /**
