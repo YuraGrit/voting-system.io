@@ -3,7 +3,7 @@
   let currentUserStatus;
   
   // Константи
-  const API_BASE_URL = 'https://registration-io.onrender.com';
+  const API_BASE_URL = 'https://authorization-io.onrender.com';
   const BLOCKCHAIN_API_URL = 'https://blockchain-io-ffel.onrender.com';
   const STORAGE_KEYS = {
     TOKEN: 'session_token',
